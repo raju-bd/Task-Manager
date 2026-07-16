@@ -2,9 +2,9 @@ import 'package:task_manager/screens/splash_screen.dart';
 import 'package:task_manager/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import 'package:task_manager/module_10/class_1.dart';
-import 'package:task_manager/crud/crud.dart';
-import 'package:task_manager/ui/task_home_page.dart';
+//import 'package:task_manager/module_10/class_1.dart';
+//import 'package:task_manager/crud/crud.dart';
+//import 'package:task_manager/ui/task_home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -2,7 +2,7 @@ import 'package:task_manager/screens/cancel_task_screen.dart';
 import 'package:task_manager/screens/completed_task_screen.dart';
 import 'package:task_manager/screens/new_task_screen.dart';
 import 'package:task_manager/screens/progress_task_screen.dart';
-import 'package:task_manager/utils/app_colors.dart';
+//import 'package:task_manager/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../widget/tm_appbar.dart';

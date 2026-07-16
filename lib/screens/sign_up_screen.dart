@@ -6,7 +6,7 @@ import 'package:task_manager/widget/screen_bg.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../module_10/crud/utils/urls.dart';
+import '../crud/utils/urls.dart';
 import '../utils/urls.dart';
 
 class SignUpScreen extends StatefulWidget {
