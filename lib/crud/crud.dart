@@ -1,4 +1,4 @@
-import 'package:batch_17/module_10/crud/controller/productcontroller.dart';
+import 'package:task_manager/crud/controller/productcontroller.dart';
 import 'package:flutter/material.dart';
 
 import 'model/productmodel.dart';
