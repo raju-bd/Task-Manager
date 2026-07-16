@@ -21,7 +21,7 @@ class TmAppbar extends StatelessWidget implements PreferredSize{
           children: [
             CircleAvatar(
               radius: 25,
-              backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrN3fMD9X1_p5b6lRSCGcpDtH9BcgEOsEZLg&s'),
+              backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/14306684?v=4'),
             ),
         
             SizedBox(width: 10,),
