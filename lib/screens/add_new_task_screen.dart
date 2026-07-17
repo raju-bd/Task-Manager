@@ -49,41 +49,63 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScreenBG(child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 200,),
-            Text('Add New task', style: Theme.of(context).textTheme.titleLarge,),
-            SizedBox(height: 25,),
-            TextFormField(
-              controller: titleController,
-              decoration: InputDecoration(
-                  hintText: 'Title'
+      body: ScreenBG(child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 80,),
+              Text('Add New Task', style: Theme.of(context).textTheme.titleLarge),
+              SizedBox(height: 30,),
+              TextFormField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  hintText: 'Task Title',
+                  prefixIcon: Icon(Icons.task_outlined)
+                ),
               ),
-            ),
-            SizedBox(height: 10,),
-
-            TextFormField(
-              controller: descriptionController,
-              maxLines: 6,
-              decoration: InputDecoration(
-                  hintText: 'Description'
+              SizedBox(height: 16,),
+              TextFormField(
+                controller: descriptionController,
+                maxLines: 8,
+                decoration: InputDecoration(
+                  hintText: 'Task Description',
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(top: 12.0),
+                    child: Icon(Icons.description_outlined),
+                  ),
+                  alignLabelWithHint: true
+                ),
               ),
-            ),
-
-            FilledButton(onPressed: (){
-              createTask();
-            }, child: Icon(Icons.arrow_circle_right_outlined,size: 25,)),
-
-
-
-
-
-          ],
+              SizedBox(height: 32,),
+              FilledButton(
+                onPressed: (){
+                  if(titleController.text.isNotEmpty && descriptionController.text.isNotEmpty) {
+                    createTask();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please fill all fields'))
+                    );
+                  }
+                }, 
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add_circle_outline, size: 28),
+                      SizedBox(width: 8),
+                      Text('Add Task', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                )
+              ),
+              SizedBox(height: 40,),
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

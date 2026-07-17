@@ -127,40 +127,81 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.taskModel.title.toString(),style: Theme.of(context).textTheme.titleLarge!.copyWith(
-          fontSize: 18
-      ),),
-
-
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.taskModel.description.toString()),
-          Text('Date:${widget.taskModel.createdDate}'),
-          Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Chip(label: Text(widget.taskModel.status.toString()),
-                backgroundColor: widget.CardColor,
-                labelStyle: TextStyle(
-                    color: Colors.white
+              // Title
+              Text(
+                widget.taskModel.title.toString(),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold
                 ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)
-                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-
-              Spacer(),
-
-
-              IconButton(onPressed: (){
-                ShowChnageDialog();
-              }, icon: Icon(Icons.edit_note, color: Colors.orange,)),
-              IconButton(onPressed: (){deleteTask();}, icon: Icon(Icons.delete, color: Colors.red,)),
-
+              SizedBox(height: 8),
+              
+              // Description
+              Text(
+                widget.taskModel.description.toString(),
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 13
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 12),
+              
+              // Status and Action Buttons row
+              Row(
+                children: [
+                  Chip(
+                    label: Text(
+                      widget.taskModel.status.toString(),
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 12)
+                    ),
+                    backgroundColor: widget.CardColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: (){
+                      ShowChnageDialog();
+                    },
+                    icon: Icon(Icons.edit, color: Colors.orange, size: 20),
+                    tooltip: 'Edit Task',
+                    padding: EdgeInsets.all(4),
+                    constraints: BoxConstraints(),
+                  ),
+                  SizedBox(width: 4),
+                  IconButton(
+                    onPressed: (){
+                      deleteTask();
+                    },
+                    icon: Icon(Icons.delete, color: Colors.red, size: 20),
+                    tooltip: 'Delete Task',
+                    padding: EdgeInsets.all(4),
+                    constraints: BoxConstraints(),
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

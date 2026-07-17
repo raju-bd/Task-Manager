@@ -2,6 +2,7 @@
 
 import 'package:task_manager/controller/auth_controller.dart';
 import 'package:task_manager/data/model/user_model.dart';
+import 'package:task_manager/screens/forgot_password_email_screen.dart';
 import 'package:task_manager/screens/main_nav_screen.dart';
 import 'package:task_manager/screens/sign_up_screen.dart';
 import 'package:task_manager/utils/app_colors.dart';
@@ -63,57 +64,87 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScreenBG(child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 250,),
-            Text('Get Started With', style: Theme.of(context).textTheme.titleLarge,),
-            SizedBox(height: 25,),
-            TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(
-                hintText: 'Email'
+      body: ScreenBG(child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 80,),
+              Text('Get Started With', style: Theme.of(context).textTheme.titleLarge),
+              SizedBox(height: 30,),
+              TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  prefixIcon: Icon(Icons.email_outlined)
+                ),
               ),
-            ),
-            SizedBox(height: 10,),
+              SizedBox(height: 16,),
 
-            TextFormField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                  hintText: 'Password'
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  suffixIcon: Icon(Icons.visibility_off_outlined)
+                ),
               ),
-            ),
-
-            FilledButton(onPressed: (){
-              signIn();
-            }, child: Icon(Icons.arrow_circle_right_outlined,size: 25,)),
-
-            SizedBox(height: 35,),
-
-            Center(
-              child: Column(
-                children: [
-                  TextButton(onPressed: (){}, child: Text('Forget Password ?',style: TextStyle(color: Colors.grey),)),
-
-                  RichText(text: TextSpan(
-                    text: "Don't have an account? ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
+              SizedBox(height: 24,),
+              FilledButton(
+                onPressed: (){
+                  signIn();
+                }, 
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextSpan(
-                        text: 'Sign Up', style: TextStyle(
-                        color: AppColors.PColor,
-                        fontWeight: FontWeight.bold
-                      ),
-                        recognizer: TapGestureRecognizer()..onTap = onTapSignUp
-                      )
-                    ]
-                  ))
-                ],
+                      Icon(Icons.arrow_circle_right_outlined, size: 28),
+                    ],
+                  ),
+                )
               ),
-            )
-
-          ],
+              SizedBox(height: 48,),
+              Center(
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ForgotPasswordEmailScreen())
+                        );
+                      }, 
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                    ),
+                    SizedBox(height: 16,),
+                    RichText(
+                      text: TextSpan(
+                        text: "Don't have an account? ",
+                        style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+                        children: [
+                          TextSpan(
+                            text: 'Sign Up',
+                            style: TextStyle(
+                              color: AppColors.PColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap = onTapSignUp
+                          )
+                        ]
+                      )
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       )),
     );

@@ -18,12 +18,13 @@ class CancelTaskScreen extends StatefulWidget {
 class _CancelTaskScreenState extends State<CancelTaskScreen> {
 
   List<TaskModel>tasks = [];
+  bool isLoading = false;
 
   Future<void> getAllTask() async {
+    setState(() => isLoading = true);
     final ApiResponse response = await ApiCaller.getRequest(url: TMUrls.getTaskByStatusURL('Cancelled'));
 
     List<TaskModel> task = [];
-
 
     if(response.isSuccess){
       for(Map<String , dynamic>jsonData in (response.responseData['data'])){
@@ -31,41 +32,50 @@ class _CancelTaskScreenState extends State<CancelTaskScreen> {
       }
     }else{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(jsonDecode(response.responseData['data']))));
-
     }
-
 
     setState(() {
       tasks = task;
+      isLoading = false;
     });
-
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAllTask();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-
-        children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (context,index){
-                  final task = tasks[index];
-                  return TaskCard(taskModel: task, CardColor: Colors.red, refreshParent: () async {
-                    await getAllTask();
-                  },);
-                }),
+      body: RefreshIndicator(
+        onRefresh: getAllTask,
+        child: tasks.isEmpty && !isLoading
+          ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.cancel_outlined, size: 64, color: Colors.grey[300]),
+                SizedBox(height: 16),
+                Text(
+                  'No Cancelled Tasks',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 18),
+                )
+              ],
+            ),
           )
-
-
-        ],
+          : ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index){
+              final task = tasks[index];
+              return TaskCard(
+                taskModel: task,
+                CardColor: Colors.red,
+                refreshParent: getAllTask,
+              );
+            }
+          ),
       ),
     );
   }

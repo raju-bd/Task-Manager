@@ -6,9 +6,9 @@ import 'package:task_manager/screens/login_screen.dart';
 import 'package:task_manager/screens/main_nav_screen.dart';
 import 'package:task_manager/utils/app_colors.dart';
 import 'package:task_manager/widget/screen_bg.dart';
-import 'package:task_manager/widget/tm_appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:task_manager/crud/utils/urls.dart';
 import '../utils/urls.dart';
@@ -76,13 +76,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
 
+  Future<void> logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+    AuthController.userData = null;
+    AuthController.accessToken = null;
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     UserModel user = AuthController.userData!;
-
 
     emailController.text = user.email!;
     firstNameController.text = user.firstName!;
@@ -93,100 +100,141 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TmAppbar(),
-      body: ScreenBG(child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 150,),
-              Text('Update Profile', style: Theme.of(context).textTheme.titleLarge,),
-              SizedBox(height: 25,),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                    hintText: 'Email'
+      appBar: AppBar(
+        backgroundColor: AppColors.PColor,
+        title: Text('My Profile'),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: ScreenBG(child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: formkey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 24,),
+                Center(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/14306684?v=4'),
+                  ),
                 ),
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter email';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: firstNameController,
-                decoration: InputDecoration(
-
-                    hintText: 'First name'
+                SizedBox(height: 32,),
+                Text('Update Profile', style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(height: 24,),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter email';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter firstName';
-                  }else{
-                    return null;
-                  }
-                },
-
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: lastNameController,
-                decoration: InputDecoration(
-                    hintText: 'last name'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: firstNameController,
+                  decoration: InputDecoration(
+                    hintText: 'First name',
+                    prefixIcon: Icon(Icons.person_outline)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter first name';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter lastName';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: mobileController,
-                decoration: InputDecoration(
-                    hintText: 'Mobile'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: lastNameController,
+                  decoration: InputDecoration(
+                    hintText: 'Last name',
+                    prefixIcon: Icon(Icons.person_outline)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter last name';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter mobile';
-                  }else if(value.length != 11){
-                    return 'Please enter correct mobile number';
-                  }else{
-                    return null;
-                  }
-                },
-
-              ),
-              SizedBox(height: 10,),
-
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                    hintText: 'Password'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: mobileController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    hintText: 'Mobile',
+                    prefixIcon: Icon(Icons.phone_outlined)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter mobile';
+                    }else if(value.length != 11){
+                      return 'Please enter correct mobile number';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-              ),
-
-              FilledButton(onPressed: (){
-                if(formkey.currentState!.validate()){
-
-                 updateProfile();
-                }
-              }, child: Icon(Icons.arrow_circle_right_outlined,size: 25,)),
-
-              SizedBox(height: 35,),
-
-
-
-            ],
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'New Password (optional)',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    suffixIcon: Icon(Icons.visibility_off_outlined)
+                  ),
+                ),
+                SizedBox(height: 32,),
+                FilledButton(
+                  onPressed: (){
+                    if(formkey.currentState!.validate()){
+                      updateProfile();
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.update, size: 28),
+                        SizedBox(width: 8),
+                        Text('Update Profile', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  )
+                ),
+                SizedBox(height: 24,),
+                OutlinedButton(
+                  onPressed: logout,
+                  style: OutlinedButton.styleFrom(
+                    fixedSize: Size.fromWidth(double.maxFinite),
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    side: BorderSide(color: Colors.red, width: 2)
+                  ),
+                  child: Text(
+                    'Logout',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red
+                    ),
+                  )
+                ),
+                SizedBox(height: 40,),
+              ],
+            ),
           ),
         ),
       )),

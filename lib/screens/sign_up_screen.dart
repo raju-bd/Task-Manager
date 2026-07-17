@@ -59,125 +59,136 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScreenBG(child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Form(
-          key: formkey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 150,),
-              Text('Join with us', style: Theme.of(context).textTheme.titleLarge,),
-              SizedBox(height: 25,),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                    hintText: 'Email'
+      body: ScreenBG(child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: formkey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 60,),
+                Text('Join With Us', style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(height: 30,),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter email';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter email';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: firstNameController,
-                decoration: InputDecoration(
-
-                    hintText: 'First name'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: firstNameController,
+                  decoration: InputDecoration(
+                    hintText: 'First name',
+                    prefixIcon: Icon(Icons.person_outline)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter first name';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter firstName';
-                  }else{
-                    return null;
-                  }
-                },
-
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: lastNameController,
-                decoration: InputDecoration(
-                    hintText: 'last name'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: lastNameController,
+                  decoration: InputDecoration(
+                    hintText: 'Last name',
+                    prefixIcon: Icon(Icons.person_outline)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter last name';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter lastName';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: mobileController,
-                decoration: InputDecoration(
-                    hintText: 'Mobile'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: mobileController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    hintText: 'Mobile',
+                    prefixIcon: Icon(Icons.phone_outlined)
+                  ),
+                  validator: (value){
+                    if(value ==null || value.isEmpty){
+                      return 'Please enter mobile';
+                    }else if(value.length != 11){
+                      return 'Please enter correct mobile number';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-                validator: (value){
-                  if(value ==null || value.isEmpty){
-                    return 'Please enter mobile';
-                  }else if(value.length != 11){
-                    return 'Please enter correct mobile number';
-                  }else{
-                    return null;
-                  }
-                },
-
-              ),
-              SizedBox(height: 10,),
-
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                    hintText: 'Password'
+                SizedBox(height: 16,),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    suffixIcon: Icon(Icons.visibility_off_outlined)
+                  ),
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter password';
+                    }else{
+                      return null;
+                    }
+                  },
                 ),
-
-                validator: (value){
-                  if(value == null || value.isEmpty){
-                    return 'Please Enter password';
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-
-              FilledButton(onPressed: (){
-                if(formkey.currentState!.validate()){
-
-                  signUp();
-                }
-              }, child: Icon(Icons.arrow_circle_right_outlined,size: 25,)),
-
-              SizedBox(height: 35,),
-
-              Center(
-                child: Column(
-                  children: [
-
-                    RichText(text: TextSpan(
-                        text: "Already have account? ",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
-                        children: [
-                          TextSpan(
-                              text: 'Sign in', style: TextStyle(
-                              color: AppColors.PColor,
-                              fontWeight: FontWeight.bold
+                SizedBox(height: 24,),
+                FilledButton(
+                  onPressed: (){
+                    if(formkey.currentState!.validate()){
+                      signUp();
+                    }
+                  }, 
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.arrow_circle_right_outlined, size: 28),
+                      ],
+                    ),
+                  )
+                ),
+                SizedBox(height: 48,),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: "Already have an account? ",
+                      style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+                      children: [
+                        TextSpan(
+                          text: 'Sign In',
+                          style: TextStyle(
+                            color: AppColors.PColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16
                           ),
-                              recognizer: TapGestureRecognizer()..onTap = onTapSignIn
-                          )
-                        ]
-                    ))
-                  ],
+                          recognizer: TapGestureRecognizer()..onTap = onTapSignIn
+                        )
+                      ]
+                    )
+                  ),
                 ),
-              )
-
-            ],
+                SizedBox(height: 40,),
+              ],
+            ),
           ),
         ),
       )),
